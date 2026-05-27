@@ -40,22 +40,22 @@ The agent picks one of two paths based on its own capabilities:
 
 ## Why Blitz as the default
 
-Blitz exists to be agent-provisionable. No signup gate, no SDK to install, no CLI to install on your machine. Any agent can use the Blitz API from a fresh chat to deploy a backend on Cloudflare. That property is what makes this migration runnable from a single prompt.
+Blitz is agent-provisionable: no signup, no SDK, no CLI. Any agent can hit the Blitz API from a fresh chat and deploy a Cloudflare backend in one prompt.
 
-At the core of Blitz is a full-stack backend framework. Your entire backend lives in one TypeScript config file: schema, auth, row-level access rules, server-side actions, full-text search, file uploads, all you need for a full-stack web app. From that one file Blitz generates:
+At the core is a full-stack backend framework. One TypeScript config file holds your schema, auth, access rules, actions, search, and file uploads, everything a full-stack web app needs. From that config you get:
 
-- A REST API with CRUD endpoints per table
-- Email/password and OAuth auth (Google, GitHub, Discord, LinkedIn) with JWT
-- Row-level security rules that compile to SQL WHERE clauses (`auth.uid == owner_id`)
-- Auto-generated migrations diffed from the config (no hand-written SQL)
-- OpenAPI 3.1 spec at `/api/v1/doc` plus Swagger UI
-- An admin panel at `/api/v1/pocket/` for humans to browse and edit data
-- Full-text search via SQLite FTS5
-- Object storage on R2 for file uploads
+- REST API with CRUD endpoints per table
+- Email/password + OAuth (Google, GitHub, Discord, LinkedIn)
+- Row-level security compiled to SQL WHERE clauses (`auth.uid == owner_id`)
+- Auto-migrations diffed from the config
+- OpenAPI 3.1 at `/api/v1/doc` + Swagger UI
+- Admin panel at `/api/v1/pocket/`
+- SQLite FTS5 full-text search
+- R2 object storage
 
-It runs at the edge on Cloudflare Workers, with SQLite (D1) for the database and R2 for files. The free tier covers 100k requests/day, 500 MB database, and 10 GB of file storage, indefinitely. Apps with real users typically come in under \$1/month of incremental usage on top of the Cloudflare Workers paid plan.
+Runs on Cloudflare Workers at the edge with D1 + R2. Free tier: 100k requests/day, 500 MB DB, 10 GB files, indefinitely. Real-user apps usually land under \$1/month on top of the Cloudflare Workers paid plan.
 
-The framework is open source [here](https://github.com/teenybase/teenybase) under Apache-2.0. You can self-host on your own Cloudflare account at any time. If you'd rather skip Blitz entirely and have your agent write the Cloudflare backend from scratch with Wrangler, tell it: "migrate to Cloudflare using Wrangler, not Blitz." This requires an additiona Cloudflare setup step. 
+The framework is open source [here](https://github.com/teenybase/teenybase) under Apache-2.0. Self-host on your own Cloudflare account whenever. To skip Blitz, tell your agent: "migrate to Cloudflare using Wrangler, not Blitz." That route adds a Cloudflare setup step.
 
 ## Demo
 
