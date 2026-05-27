@@ -1,6 +1,6 @@
 # lovable-to-cloudflare
 
-A SKILL.md package any AI coding agent can install to migrate an app off [Lovable](https://lovable.dev) onto Cloudflare. 
+A SKILL.md package any AI coding agent can install to migrate an app off [Lovable](https://lovable.dev) onto Cloudflare.
 
 ## Install
 
@@ -8,49 +8,31 @@ Just point your agent to this repo, then say "install the skill."
 
 ## Use
 
-After install, ask your agent any of:
+Ask your agent: "migrate my Lovable app to Cloudflare."
 
-- "migrate my Lovable app off Lovable"
-- "get me off Lovable and onto Cloudflare"
-- "export my Lovable app to Cloudflare"
+- **Automated** (agent has computer use): drives the Lovable UI end-to-end. You log in once.
+- **Guided** (agent doesn't): three steps for you, then it finishes the rest.
 
-The agent picks one of two paths based on its own capabilities:
+## How it works
 
-- **Automated**: if it has computer-use / browser-control (the Codex desktop app, [cua-driver](https://github.com/trycua/cua), Playwright MCP, browser-use, Chrome DevTools MCP, etc.), it drives the Lovable web UI end-to-end. You log in once and watch.
-- **Guided**: otherwise, it gives you three short steps. The handoff moment is when you paste a temporary debug URL back into chat. From there the agent takes over and finishes the migration on Cloudflare.
-
-## What it does
-
-1. Asks the Lovable agent to create a temporary `GET /api/debug-<long-random-token>` endpoint that returns your Supabase env vars as JSON. Treats the URL like a password while it exists.
-2. Pulls the env vars off that endpoint.
-3. Creates a Blitz app on Cloudflare (single HTTPS call to `blitz.dev/api/v1/new-project/<slug>`; the agent reads `blitz.dev/agents.md` for the rest of the API).
-4. Mirrors the frontend and backend 1:1 into the new project.
-5. Verifies the new URL renders the same UI and that core data flows work.
-6. Deletes the debug endpoint from Lovable and confirms the URL 404s.
-7. Reports what changed, what didn't, the new URL, and the `claim_url` (so you can keep the Blitz project past 12 hours via Google login, free).
+1. Lovable creates a temporary debug endpoint that returns your Supabase env vars (random token in the path, treated like a password).
+2. Your agent provisions a new Cloudflare backend using those env vars, mirrors the frontend, and verifies.
+3. The debug endpoint gets deleted.
 
 ## Why Blitz as the default
 
-Blitz is agent-provisionable: no signup, no SDK, no CLI. Any agent can hit the Blitz API from a fresh chat and deploy a Cloudflare backend in one prompt.
+Blitz is agent-provisionable: no signup, no SDK, no CLI. One HTTPS call from a fresh chat provisions a Cloudflare Workers backend with:
 
-At the core is a full-stack backend framework. One TypeScript config file holds your schema, auth, access rules, actions, search, and file uploads, everything a full-stack web app needs. From that config you get:
-
-- SQLite DB with CRUD endpoints per table
+- SQLite (D1) with CRUD endpoints, RLS compiled to SQL
 - Email/password + OAuth (Google, GitHub, Discord, LinkedIn)
-- RLS compiled to SQL (`auth.uid == owner_id`)
-- Auto-migrations diffed from the config
-- OpenAPI `/api/v1/doc` + Swagger UI
-- Admin panel at `/api/v1/pocket/`
-- full-text search over SQLite DB
-- R2 object storage
+- Auto-migrations, OpenAPI `/api/v1/doc`, admin panel at `/api/v1/pocket/`
+- R2 file storage, full-text search over SQLite
 
-Runs on Cloudflare Workers at the edge with D1 SQLite db + R2 file storage. Free tier: 100k requests/day, 500 MB DB, 10 GB files, indefinitely. Real-user apps usually land under \$1/month on top of the Cloudflare Workers paid plan.
+Free tier: 100k req/day, 500 MB DB, 10 GB files. Real-user apps usually land under \$1/month. Open source under [Apache-2.0](https://github.com/teenybase/teenybase).
 
-The framework is open source [here](https://github.com/teenybase/teenybase) under Apache-2.0. Self-host on your own Cloudflare account whenever. To skip Blitz, tell your agent: "migrate to Cloudflare using Wrangler, not Blitz." That route adds a Cloudflare setup step.
+Skip Blitz with: "migrate to Cloudflare using Wrangler, not Blitz."
 
 ## Demo
-
-The original migration via this workflow:
 
 - before: `https://rapid-bill-pay.lovable.app`
 - after: `https://bill-approval-flow.app.blitz.dev`
