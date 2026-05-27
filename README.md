@@ -1,4 +1,4 @@
-# lovable-migrate
+# lovable-to-cloudflare
 
 A SKILL.md package any AI coding agent can install to migrate an app off [Lovable](https://lovable.dev) onto Cloudflare. 
 
@@ -8,7 +8,7 @@ Point your agent at this repo, then say "install the skill."
 
 **Claude Code:**
 ```sh
-git clone https://github.com/blitzdotdev/lovable-migrate ~/.claude/skills/lovable-migrate
+git clone https://github.com/blitzdotdev/lovable-to-cloudflare ~/.claude/skills/lovable-to-cloudflare
 ```
 
 **Codex app:** clone anywhere on disk, then point Codex at the path. The Codex app reads `SKILL.md` directly. (Note: it's the Codex desktop app that has computer use. The Codex CLI does not.)
