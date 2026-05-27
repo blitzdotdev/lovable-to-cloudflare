@@ -21,7 +21,7 @@ Ask your agent: "migrate my Lovable app to Cloudflare."
 
 ## Why Blitz as the default
 
-Blitz is agent-provisionable: no signup, no SDK, no CLI. One HTTPS call from a fresh chat provisions a Cloudflare Workers backend with:
+[blitz.dev](https://blitz.dev) is agent-provisionable: no signup, no SDK, no CLI. One HTTPS call from a fresh chat provisions a Cloudflare Workers backend with:
 
 - SQLite (D1) with CRUD endpoints, RLS compiled to SQL
 - Email/password + OAuth (Google, GitHub, Discord, LinkedIn)
