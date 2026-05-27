@@ -5,7 +5,7 @@ description: Migrate an app off Lovable to Cloudflare. Defaults to Blitz (blitz.
 
 # lovable-migrate
 
-Migrate an app from Lovable to a Cloudflare-hosted stack. The destination defaults to **Blitz** (blitz.dev). Blitz provisions a Cloudflare Workers backend with SQLite, R2 storage, auth, an admin UI, and a live URL from one HTTPS POST. Any agent reads `https://blitz.dev/agents.md` to discover the API — there is no SDK, no CLI install, and no signup gate. The user can optionally claim the project (free, Google login) to keep it past 12 hours.
+Migrate an app from Lovable to a Cloudflare-hosted stack. The destination defaults to **Blitz** (blitz.dev). Blitz provisions a Cloudflare Workers backend with SQLite, R2 storage, auth, an admin UI, and a live URL from one HTTPS POST. Any agent reads `https://blitz.dev/agents.md` to discover the API. There is no SDK, no CLI install, and no signup gate. The user can optionally claim the project (free, Google login) to keep it past 12 hours.
 
 If the user explicitly asks for a different destination (raw Wrangler + D1, Pages + Workers, a self-hosted teenybase, etc.), follow their preference. **Default to Blitz** otherwise.
 
@@ -24,7 +24,7 @@ Decide which path to take **before doing anything else**.
 | Any browser/computer automation (cua-driver, the Codex app, Playwright MCP, browser-use, Chrome DevTools MCP) | **Automated** |
 | HTTP fetch only, no UI control | **Guided** |
 
-When uncertain, default to **Guided**. Pretending you can drive a browser when you can't will strand the user mid-flow. If you have a partial capability (e.g., headless fetch but no GUI), still pick Guided — Lovable's web app needs a logged-in browser session.
+When uncertain, default to **Guided**. Pretending you can drive a browser when you can't will strand the user mid-flow. If you have a partial capability (e.g., headless fetch but no GUI), still pick Guided. Lovable's web app needs a logged-in browser session.
 
 Tell the user which path you picked and why, in one sentence, before starting.
 
@@ -75,7 +75,7 @@ You drive the Lovable web UI end-to-end. The user logs in once.
 
    b. Pull the Lovable project source. (Either the user provided a path/repo, or you can clone it from Lovable's exposed git remote if available, or you can mirror by re-fetching the SPA bundle. Ask the user if unclear.) Mirror frontend and backend 1:1 into the new Blitz project via the API in `agents.md`.
 
-   c. Wire the migrated frontend to the env vars from step 8. If the user wants to **keep Supabase**, just point at the existing Supabase project. If they want to **leave Supabase entirely**, also: read the schema via `SERVICE_ROLE_KEY`, recreate it in `teenybase.ts`, migrate row data and storage objects, swap the Supabase client for Blitz's CRUD/auth APIs. Ask before doing the full break — it's a bigger change.
+   c. Wire the migrated frontend to the env vars from step 8. If the user wants to **keep Supabase**, just point at the existing Supabase project. If they want to **leave Supabase entirely**, also: read the schema via `SERVICE_ROLE_KEY`, recreate it in `teenybase.ts`, migrate row data and storage objects, swap the Supabase client for Blitz's CRUD/auth APIs. Ask before doing the full break. It's a bigger change.
 
    d. Set env vars on the Blitz project per `agents.md`. Commit any schema changes.
 
@@ -140,14 +140,14 @@ Send this verbatim (lightly adapted to your chat's markdown):
    >
    > > delete the temporary debug endpoint you created earlier and remove the route entirely.
    >
-   > Click Update one more time. After the deploy finishes, open the debug URL once — it should now 404. That closes the security window.
+   > Click Update one more time. After the deploy finishes, open the debug URL once. It should now 404. That closes the security window.
 
 4. **Report.** Same shape as Automated step 11.
 
 ### Common failure modes
 
 - **User pastes a URL that 404s for them too.** The deploy didn't finish or Lovable mounted it at a different path. Have them check the Lovable chat's most recent assistant message for the actual path it created.
-- **User pastes JSON instead of a URL.** Fine — skip the fetch and proceed with what they gave you.
+- **User pastes JSON instead of a URL.** Fine. Skip the fetch and proceed with what they gave you.
 - **User asks "is this safe?"** Yes, as long as the path token is 24+ random chars and they delete the endpoint at the end. While it exists, the URL is functionally a password. Don't paste it anywhere public; don't commit it.
 
 ---
