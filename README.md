@@ -44,16 +44,16 @@ Blitz is agent-provisionable: no signup, no SDK, no CLI. Any agent can hit the B
 
 At the core is a full-stack backend framework. One TypeScript config file holds your schema, auth, access rules, actions, search, and file uploads, everything a full-stack web app needs. From that config you get:
 
-- REST API with CRUD endpoints per table
+- SQLite DB with CRUD endpoints per table
 - Email/password + OAuth (Google, GitHub, Discord, LinkedIn)
-- Row-level security compiled to SQL WHERE clauses (`auth.uid == owner_id`)
+- RLS compiled to SQL (`auth.uid == owner_id`)
 - Auto-migrations diffed from the config
-- OpenAPI 3.1 at `/api/v1/doc` + Swagger UI
+- OpenAPI `/api/v1/doc` + Swagger UI
 - Admin panel at `/api/v1/pocket/`
-- SQLite FTS5 full-text search
+- full-text search over SQLite DB
 - R2 object storage
 
-Runs on Cloudflare Workers at the edge with D1 + R2. Free tier: 100k requests/day, 500 MB DB, 10 GB files, indefinitely. Real-user apps usually land under \$1/month on top of the Cloudflare Workers paid plan.
+Runs on Cloudflare Workers at the edge with D1 SQLite db + R2 file storage. Free tier: 100k requests/day, 500 MB DB, 10 GB files, indefinitely. Real-user apps usually land under \$1/month on top of the Cloudflare Workers paid plan.
 
 The framework is open source [here](https://github.com/teenybase/teenybase) under Apache-2.0. Self-host on your own Cloudflare account whenever. To skip Blitz, tell your agent: "migrate to Cloudflare using Wrangler, not Blitz." That route adds a Cloudflare setup step.
 
