@@ -40,9 +40,22 @@ The agent picks one of two paths based on its own capabilities:
 
 ## Why Blitz as the default
 
-Blitz is the lowest-friction destination on Cloudflare for an agent driving migration from a fresh chat. No signup gate, no SDK install, no CLI. An agent reads `blitz.dev/agents.md` and provisions a full backend (SQLite + R2 + auth + admin UI) in one HTTPS POST. Hosting at this scale is free.
+Blitz exists to be agent-provisionable. No signup gate, no SDK to install, no CLI to install on your machine. Any agent reads `blitz.dev/agents.md` from a fresh chat and learns how to provision a backend in one HTTPS POST. That property is what makes this migration runnable from a single prompt.
 
-If you'd rather self-host on your own Cloudflare account, tell your agent: "migrate to Cloudflare using Wrangler, not Blitz." The skill still walks Lovable through the same debug-endpoint trick; only the destination changes.
+At the core of Blitz is a full-stack backend framework. Your entire backend lives in one TypeScript config file: schema, auth, row-level access rules, server-side actions, full-text search, file uploads. From that one file Blitz generates:
+
+- A REST API with CRUD endpoints per table
+- Email/password and OAuth auth (Google, GitHub, Discord, LinkedIn) with JWT
+- Row-level security rules that compile to SQL WHERE clauses (`auth.uid == owner_id`)
+- Auto-generated migrations diffed from the config (no hand-written SQL)
+- OpenAPI 3.1 spec at `/api/v1/doc` plus Swagger UI
+- An admin panel at `/api/v1/pocket/` for humans to browse and edit data
+- Full-text search via SQLite FTS5
+- Object storage on R2 for file uploads
+
+It runs at the edge on Cloudflare Workers, with SQLite (D1) for the database and R2 for files. The free tier covers 100k requests/day, 500 MB database, and 10 GB of file storage, indefinitely. Apps with real users typically come in under \$1/month of incremental usage on top of the Cloudflare Workers paid plan.
+
+The framework is open source under Apache-2.0. You can self-host on your own Cloudflare account at any time. If you'd rather skip Blitz entirely and have your agent write the Cloudflare backend from scratch with Wrangler, tell it: "migrate to Cloudflare using Wrangler, not Blitz." The Lovable side of this skill (the debug-endpoint trick) still applies either way.
 
 ## Demo
 
@@ -50,10 +63,6 @@ The original migration via this workflow:
 
 - before: `https://rapid-bill-pay.lovable.app`
 - after: `https://bill-approval-flow.app.blitz.dev`
-
-## Origin
-
-Workflow adapted from a [r/lovable post by `invocation02`](https://www.reddit.com/r/lovable/). Formalized as a SKILL.md package so any agent can run it without re-deriving the trick.
 
 ## License
 
