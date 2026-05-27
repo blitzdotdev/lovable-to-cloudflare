@@ -28,7 +28,7 @@ Blitz is agent-provisionable: no signup, no SDK, no CLI. One HTTPS call from a f
 - Auto-migrations, OpenAPI `/api/v1/doc`, admin panel at `/api/v1/pocket/`
 - R2 file storage, full-text search over SQLite
 
-Free tier: 100k req/day, 500 MB DB, 10 GB files. Real-user apps usually land under \$1/month. Open source under [Apache-2.0](https://github.com/teenybase/teenybase).
+Blitz has the free tier limits as Cloudflare free tier limits: 100k req/day, 500 MB DB, 10 GB files. Real-user apps usually land under \$1/month. Open source under [Apache-2.0](https://github.com/teenybase/teenybase).
 
 Skip Blitz with: "migrate to Cloudflare using Wrangler, not Blitz."
 
