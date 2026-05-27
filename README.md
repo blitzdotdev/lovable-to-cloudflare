@@ -55,7 +55,7 @@ At the core of Blitz is a full-stack backend framework. Your entire backend live
 
 It runs at the edge on Cloudflare Workers, with SQLite (D1) for the database and R2 for files. The free tier covers 100k requests/day, 500 MB database, and 10 GB of file storage, indefinitely. Apps with real users typically come in under \$1/month of incremental usage on top of the Cloudflare Workers paid plan.
 
-The framework is open source under Apache-2.0. You can self-host on your own Cloudflare account at any time. If you'd rather skip Blitz entirely and have your agent write the Cloudflare backend from scratch with Wrangler, tell it: "migrate to Cloudflare using Wrangler, not Blitz." The Lovable side of this skill (the debug-endpoint trick) still applies either way.
+The framework is open source [here](https://github.com/teenybase/teenybase) under Apache-2.0. You can self-host on your own Cloudflare account at any time. If you'd rather skip Blitz entirely and have your agent write the Cloudflare backend from scratch with Wrangler, tell it: "migrate to Cloudflare using Wrangler, not Blitz." The Lovable side of this skill (the debug-endpoint trick) still applies either way.
 
 ## Demo
 
