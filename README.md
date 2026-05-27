@@ -1,6 +1,6 @@
 # lovable-migrate
 
-A SKILL.md package any AI coding agent can install to migrate an app off [Lovable](https://lovable.dev) onto Cloudflare. Defaults to [Blitz](https://blitz.dev) as the Cloudflare-hosted destination. One HTTPS call provisions Workers + SQLite + R2 + auth, no signup or CLI required.
+A SKILL.md package any AI coding agent can install to migrate an app off [Lovable](https://lovable.dev) onto Cloudflare. 
 
 ## Install
 
@@ -20,7 +20,7 @@ git clone https://github.com/blitzdotdev/lovable-migrate ~/.claude/skills/lovabl
 After install, ask your agent any of:
 
 - "migrate my Lovable app off Lovable"
-- "get me off Lovable, default to Blitz"
+- "get me off Lovable and onto Cloudflare"
 - "export my Lovable app to Cloudflare"
 
 The agent picks one of two paths based on its own capabilities:
@@ -32,7 +32,7 @@ The agent picks one of two paths based on its own capabilities:
 
 1. Asks the Lovable agent to create a temporary `GET /api/debug-<long-random-token>` endpoint that returns your Supabase env vars as JSON. Treats the URL like a password while it exists.
 2. Pulls the env vars off that endpoint.
-3. Creates a Blitz project on Cloudflare (single HTTPS call to `blitz.dev/api/v1/new-project/<slug>`; the agent reads `blitz.dev/agents.md` for the rest of the API).
+3. Creates a Blitz app on Cloudflare (single HTTPS call to `blitz.dev/api/v1/new-project/<slug>`; the agent reads `blitz.dev/agents.md` for the rest of the API).
 4. Mirrors the frontend and backend 1:1 into the new project.
 5. Verifies the new URL renders the same UI and that core data flows work.
 6. Deletes the debug endpoint from Lovable and confirms the URL 404s.
@@ -40,9 +40,9 @@ The agent picks one of two paths based on its own capabilities:
 
 ## Why Blitz as the default
 
-Blitz exists to be agent-provisionable. No signup gate, no SDK to install, no CLI to install on your machine. Any agent reads `blitz.dev/agents.md` from a fresh chat and learns how to provision a backend in one HTTPS POST. That property is what makes this migration runnable from a single prompt.
+Blitz exists to be agent-provisionable. No signup gate, no SDK to install, no CLI to install on your machine. Any agent can use the Blitz API from a fresh chat to deploy a backend on Cloudflare. That property is what makes this migration runnable from a single prompt.
 
-At the core of Blitz is a full-stack backend framework. Your entire backend lives in one TypeScript config file: schema, auth, row-level access rules, server-side actions, full-text search, file uploads. From that one file Blitz generates:
+At the core of Blitz is a full-stack backend framework. Your entire backend lives in one TypeScript config file: schema, auth, row-level access rules, server-side actions, full-text search, file uploads, all you need for a full-stack web app. From that one file Blitz generates:
 
 - A REST API with CRUD endpoints per table
 - Email/password and OAuth auth (Google, GitHub, Discord, LinkedIn) with JWT
@@ -55,7 +55,7 @@ At the core of Blitz is a full-stack backend framework. Your entire backend live
 
 It runs at the edge on Cloudflare Workers, with SQLite (D1) for the database and R2 for files. The free tier covers 100k requests/day, 500 MB database, and 10 GB of file storage, indefinitely. Apps with real users typically come in under \$1/month of incremental usage on top of the Cloudflare Workers paid plan.
 
-The framework is open source [here](https://github.com/teenybase/teenybase) under Apache-2.0. You can self-host on your own Cloudflare account at any time. If you'd rather skip Blitz entirely and have your agent write the Cloudflare backend from scratch with Wrangler, tell it: "migrate to Cloudflare using Wrangler, not Blitz." The Lovable side of this skill (the debug-endpoint trick) still applies either way.
+The framework is open source [here](https://github.com/teenybase/teenybase) under Apache-2.0. You can self-host on your own Cloudflare account at any time. If you'd rather skip Blitz entirely and have your agent write the Cloudflare backend from scratch with Wrangler, tell it: "migrate to Cloudflare using Wrangler, not Blitz." This requires an additiona Cloudflare setup step. 
 
 ## Demo
 
