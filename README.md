@@ -1,3 +1,5 @@
+![lovable-to-cloudflare: how an AI agent uses a temporary debug endpoint to migrate a Lovable app to a Cloudflare backend](header.png)
+
 # lovable-to-cloudflare
 
 A SKILL.md package any AI coding agent can install to migrate an app off [Lovable](https://lovable.dev) onto Cloudflare.
