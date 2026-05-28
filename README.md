@@ -6,7 +6,9 @@ A SKILL.md package any AI coding agent can install to migrate an app off [Lovabl
 
 ## Install
 
-Just point your agent to this repo, then say "install the skill."
+```text
+Install the skill at https://github.com/pythonlearner1025/lovable-to-cloudflare.git into ~/.claude/skills/lovable-to-cloudflare (git clone), then use it to migrate my Lovable app to Cloudflare.
+```
 
 ## Use
 
